@@ -1,34 +1,6 @@
 # Union Attacks (plus some basics)
 
-Note: the final query is simply a guess of the general structure of what it looks like behind the scenes as we aren't given the source code for the actual queries.  I just found it helpful to visually see code highlighting for some of the query schenanigans that were taking place.
-
-For these attacks I used BurpSuite proxy to intercept requests.  Simply load the lab, and before sending a request to a vulnerable part of the site, enable intercept.  Then when you see the body of the request, send it to repeater.  
-
-## SQLi using WHERE
->This was was rather simple as it just invovled injecting a conditional into the query. 
->
->Don't forget to substitute spaces with '+' when making requests.
->
->Solution: `'+OR+1=1--`
->
->Final query: 
->``` SQL
->SELECT * FROM table WHERE category = ''+OR+1=1--'AND released = 1
->```
->
-<br/>
-
-## SQLi basic application login subversion
->This was was also really easy as you could just comment out the logic related to password checking.
->
->Solution: `administrator'--`
->Final query: 
->```SQL
->                                       |    payload   |
->SELECT name FROM users WHERE username='administrator'--'AND [password checking logic here]
->```
->
-<br/>
+Union attacks work by using the `UNION` keyword in SQL which combines the results of two `SELECT` statements.  Therefore when you have a query that isn't sanitized, you can simply add another `SELECT` statement to get the data that you want while commenting out the remainder of the query logic.  This only works if you can actually see the results of the data on the page however.
 
 ## SQLi union to find # of cols
 >We can subvert the application logic by selecting Null values from the columns of the table.  If we don't select a value from each column without a WHERE statement, the application will throw an error.  Therefore we can simply keep adding NULL values until the application stops throwing errors.  Note the query is slighlty different Oracle.  
