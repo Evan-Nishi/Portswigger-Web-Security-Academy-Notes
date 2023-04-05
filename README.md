@@ -6,3 +6,5 @@ Hey this is my personal notebook for solving and working through the [portswigge
     * [Basics](./SQLi/basic-injections.md)
     * [Union attacks](./SQLi/union-attacks.md) 
     * [Blind injection](./SQLi/blind-injection.md)
+2.  [Authentication](./Authentication/)
+    * [Password Based](./Authentication/password-vuln.md)
